@@ -9,16 +9,20 @@ import AssetsTab from '@/components/assets-tab'
 import FarmingTab from '@/components/farming-tab'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import LoginButton from '@/components/login-button'
+import { useStore } from '@/store/global'
 
 export default function WalletPage() {
-  const [isBalanceHidden, setIsBalanceHidden] = useState(true)
+  // const [isBalanceHidden, setIsBalanceHidden] = useState(true)
   const [isTransferPopupOpen, setIsTransferPopupOpen] = useState(false)
   const [selectedToken, setSelectedToken] = useState(null)
   const [isConnected, setIsConnected] = useState(false)
 
-  const toggleBalanceVisibility = () => setIsBalanceHidden(!isBalanceHidden)
+  const {hideBalance, setShowBalance} = useStore((state) => state)
 
-  const openTransferPopup = (token) => {
+
+  const toggleBalanceVisibility = () => {setShowBalance(!hideBalance)}
+
+  const openTransferPopup = (token: any) => {
     setSelectedToken(token)
     setIsTransferPopupOpen(true)
   }
@@ -42,9 +46,6 @@ export default function WalletPage() {
           </div>
           <div className="flex flex-1 items-center justify-end space-x-4 mr-8">
             <LoginButton/>
-            {/* <Button onClick={handleConnect}>
-              {isConnected ? 'Disconnect' : 'Connect'}
-            </Button> */}
           </div>
         </div>
       </header>
@@ -55,13 +56,13 @@ export default function WalletPage() {
             <CardTitle className="flex justify-between items-center">
               Total Balance
               <Button variant="ghost" size="icon" onClick={toggleBalanceVisibility}>
-                {isBalanceHidden ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                {hideBalance ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
               </Button>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold">
-              {isBalanceHidden ? '••••••' : '$1,234.56'}
+              {hideBalance ? '••••••' : '$1,234.56'}
             </p>
           </CardContent>
         </Card>

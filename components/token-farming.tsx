@@ -8,19 +8,29 @@ import { Progress } from "@/components/ui/progress"
 export default function TokenFarming() {
   const [lockedAmount, setLockedAmount] = useState(0)
   const [earnedAmount, setEarnedAmount] = useState(0)
-  const totalPoolSize = 1000000 // Example total pool size
-  const currentPoolSize = 750000 // Example current pool size
+  const [totalPoolSize, setTotalPoolSize] = useState(1000000) // Example total pool size
+  const [currentPoolSize, setCurrentPoolSize] = useState(750000) // Example current pool size
 
-  const handleLock = (e) => {
+  const handleLock = (e : any) => {
     e.preventDefault()
     // Here you would typically call a function to lock tokens
-    setLockedAmount(lockedAmount + Number(e.target.amount.value))
+    
+    if (currentPoolSize + Number(e.target.amount.value) >= totalPoolSize) {
+      const piCap = totalPoolSize - currentPoolSize;
+      setCurrentPoolSize(currentPoolSize + piCap);
+      setLockedAmount(lockedAmount + piCap)
+    } else {
+      setCurrentPoolSize(currentPoolSize + Number(e.target.amount.value))
+      setLockedAmount(lockedAmount + Number(e.target.amount.value))
+    }
   }
 
-  const handleWithdraw = () => {
+  const handleWithdraw = (e : any) => {
+    e.preventDefault()
     // Here you would typically call a function to withdraw tokens
     setLockedAmount(0)
     setEarnedAmount(0)
+    setCurrentPoolSize(0)
   }
 
   return (
@@ -43,9 +53,11 @@ export default function TokenFarming() {
         <form onSubmit={handleLock} className="mb-4">
           <Label htmlFor="amount">Amount to Lock (PI)</Label>
           <Input id="amount" type="number" placeholder="0" className="mb-2" />
-          <Button type="submit">Lock PI</Button>
+          <div className="flex gap-2">
+            <Button type="submit">Lock PI</Button>
+            <Button onClick={handleWithdraw} variant="outline">Withdraw</Button>
+          </div>
         </form>
-        <Button onClick={handleWithdraw} variant="outline">Withdraw</Button>
       </CardContent>
     </Card>
   )

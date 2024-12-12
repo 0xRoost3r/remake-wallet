@@ -1,12 +1,21 @@
+import { useStore } from '@/store/global'
 import Image from 'next/image'
 
 const tokens = [
-  { name: 'Pi', symbol: 'PI', balance: 1000, value: 500, logo: 'https://kzmlu5pdotz9nvgqjknk.lite.vusercontent.net/placeholder.svg?height=32&width=32' },
-  { name: 'Ethereum', symbol: 'ETH', balance: 0.5, value: 750, logo: 'https://kzmlu5pdotz9nvgqjknk.lite.vusercontent.net/placeholder.svg?height=32&width=32' },
-  { name: 'USD Coin', symbol: 'USDC', balance: 250, value: 250, logo: 'https://kzmlu5pdotz9nvgqjknk.lite.vusercontent.net/placeholder.svg?height=32&width=32' },
+  { name: 'Pi', symbol: 'PI', balance: 1000, value: 500, logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/16193.png' },
+  { name: 'Ethereum', symbol: 'ETH', balance: 0.5, value: 750, logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png' },
+  { name: 'USD Coin', symbol: 'USDC', balance: 250, value: 250, logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png' },
 ]
 
-export default function TokenList({ onTokenClick }) {
+
+interface Props {
+  onTokenClick?: any
+  // any props that come into the component
+}
+
+export default function TokenList({ onTokenClick }: Props) {
+  const {hideBalance} = useStore((state) => state)
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Tokens</h2>
@@ -22,8 +31,8 @@ export default function TokenList({ onTokenClick }) {
               <span className="font-medium">{token.name}</span>
             </div>
             <div className="text-right">
-              <div>{token.balance} {token.symbol}</div>
-              <div className="text-sm text-muted-foreground">${token.value.toFixed(2)}</div>
+              <div>{ hideBalance ? "***** " : token.balance} {token.symbol}</div>
+              <div className="text-sm text-muted-foreground">{ hideBalance ? "***** " : "$" +token.value.toFixed(2)}</div>
             </div>
           </li>
         ))}
@@ -31,4 +40,3 @@ export default function TokenList({ onTokenClick }) {
     </div>
   )
 }
-

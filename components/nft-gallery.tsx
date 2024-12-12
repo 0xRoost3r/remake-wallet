@@ -5,25 +5,66 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/hooks/use-toast"
+import {
+  Transaction,
+  TransactionButton,
+  TransactionError,
+  TransactionResponse,
+  TransactionStatus,
+  TransactionStatusAction,
+  TransactionStatusLabel,
+} from '@coinbase/onchainkit/transaction'
+import {
+  BASE_SEPOLIA_CHAIN_ID,
+  mintABI,
+  mintContractAddress,
+} from '@/constants';
+import type { Address, ContractFunctionParameters } from 'viem';
+
+interface NFT {
+  id: number;
+  name: string;
+  tokenId: string;
+  image: string;
+}
+
 
 const nfts = [
-  { id: 1, name: 'Cool NFT #1', tokenId: '0x123...abc', image: 'https://kzmlu5pdotz9nvgqjknk.lite.vusercontent.net/placeholder.svg?height=200&width=200' },
-  { id: 2, name: 'Awesome NFT #2', tokenId: '0x456...def', image: 'https://kzmlu5pdotz9nvgqjknk.lite.vusercontent.net/placeholder.svg?height=200&width=200' },
-  { id: 3, name: 'Epic NFT #3', tokenId: '0x789...ghi', image: 'https://kzmlu5pdotz9nvgqjknk.lite.vusercontent.net/placeholder.svg?height=200&width=200' },
+  { id: 1, name: 'Cool NFT #1', tokenId: '1234', image: 'https://metadata.nftscan.com/eth-app/0xbd3531da5cf5857e7cfaa92426877b022e612cf8/0x00000000000000000000000000000000000000000000000000000000000019b8.png' },
+  { id: 2, name: 'Awesome NFT #2', tokenId: '5678', image: 'https://metadata.nftscan.com/eth-app/0xbd3531da5cf5857e7cfaa92426877b022e612cf8/0x00000000000000000000000000000000000000000000000000000000000004d7.png' },
+  { id: 3, name: 'Epic NFT #3', tokenId: '9012', image: 'https://metadata.nftscan.com/eth-app/0xbd3531da5cf5857e7cfaa92426877b022e612cf8/0x00000000000000000000000000000000000000000000000000000000000011fd.png' },
 ]
 
 export default function NFTGallery() {
-  const [selectedNFT, setSelectedNFT] = useState(null)
+  const [selectedNFT, setSelectedNFT] = useState<NFT>(nfts[0]);
 
-  const handleTransfer = (e) => {
+  const handleTransfer = (e: any) => {
     e.preventDefault()
     // Here you would typically call a function to transfer the NFT
     toast({
       title: "NFT Transferred",
       description: `${selectedNFT.name} has been transferred successfully.`,
     })
-    setSelectedNFT(null)
+    setSelectedNFT(nfts[0])
   }
+
+  const contracts = [
+    {
+      address: mintContractAddress,
+      abi: mintABI,
+      functionName: 'mint',
+      args: ['0xE5aEb1927ec6B30cc6AB0a42679C897bf76e7C66', '1000000000000000000000'],
+    },
+  ] as unknown as ContractFunctionParameters[];
+
+
+  const handleError = (err: TransactionError) => {
+    console.error('Transaction error:', err);
+  };
+
+  const handleSuccess = (response: TransactionResponse) => {
+    console.log('Transaction successful', response);
+  };
 
   return (
     <div>
@@ -47,9 +88,20 @@ export default function NFTGallery() {
               <form onSubmit={handleTransfer} className="space-y-4">
                 <div>
                   <Label htmlFor="recipient">Recipient Address</Label>
-                  <Input id="recipient" placeholder="0x..." />
+                  <Input id="recipient" placeholder="0x42F10Bb701ed230222aC6F748320040A0e3ddfAD" />
                 </div>
-                <Button type="submit" className="w-full">Transfer NFT</Button>
+                <Transaction
+                  contracts={contracts}
+                  chainId={BASE_SEPOLIA_CHAIN_ID}
+                  onError={handleError}
+                  onSuccess={handleSuccess}
+                >
+                  <TransactionButton text="Send" className='relative left-0 border-black' />
+                  <TransactionStatus>
+                    <TransactionStatusLabel />
+                    <TransactionStatusAction />
+                  </TransactionStatus>
+                </Transaction>
               </form>
             </DialogContent>
           </Dialog>
