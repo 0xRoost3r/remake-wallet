@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { QrCode } from 'lucide-react'
+import { ethers } from 'ethers'
+import { useAccount } from 'wagmi'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,6 +22,8 @@ import {
   mintContractAddress,
 } from '@/constants';
 import type { Address, ContractFunctionParameters } from 'viem';
+import ScanQRCode from './scan-qr-code'
+import { QRCodeSVG } from 'qrcode.react'
 
 
 interface Props {
@@ -29,14 +33,18 @@ interface Props {
 }
 
 export default function TransferPopup({ token, onClose } : Props) {
+  const { address } = useAccount()
   const [showQR, setShowQR] = useState(false)
+  const [recipient, setRecipient] = useState<string>(address ?? '')
+  const [amount, setAmount] = useState<string>('0.01')
+  const [showScanner, setShowScanner] = useState(false)
 
   const contracts = [
     {
       address: mintContractAddress,
       abi: mintABI,
       functionName: 'mint',
-      args: ['0xE5aEb1927ec6B30cc6AB0a42679C897bf76e7C66', '1000000000000000000000'],
+      args: [recipient, ethers.parseUnits(amount,"ether").toString().replace('n', '')],
     },
   ] as unknown as ContractFunctionParameters[];
 
@@ -59,6 +67,11 @@ export default function TransferPopup({ token, onClose } : Props) {
     console.log('Transaction successful', response);
   };
 
+  const handleQRScan = (result: string) => {
+    setRecipient(result);
+    setShowScanner(false);
+  };
+
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent>
@@ -66,33 +79,71 @@ export default function TransferPopup({ token, onClose } : Props) {
           <DialogTitle>Transfer {token.name}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleTransfer}>
-          <div className="mb-4">
+        <div className="mb-4">
             <Label htmlFor="recipient">Recipient Address</Label>
-            <Input id="recipient" placeholder="0xE5aEb1927ec6B30cc6AB0a42679C897bf76e7C66" />
+            <Input 
+              id="recipient" 
+              placeholder="0xE5aEb1927ec6B30cc6AB0a42679C897bf76e7C66" 
+              value={recipient}
+              onChange={(e) => setRecipient(e.target.value)}
+            />
           </div>
           <div className="mb-4">
             <Label htmlFor="amount">Amount</Label>
-            <Input id="amount" type="number" placeholder="1000" />
+            <Input 
+              id="amount" 
+              type="number" 
+              placeholder="0.001"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              min="0"
+              step="0.001"
+            />
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-2">
             <Transaction
               contracts={contracts}
               chainId={BASE_SEPOLIA_CHAIN_ID}
               onError={handleError}
               onSuccess={handleSuccess}
             >
-              <TransactionButton text="Send" className='relative left-0 border-black' />
+              <TransactionButton text="Send" className='relative text-black left-0 border-black' />
+              <TransactionStatus>
+                <TransactionStatusLabel />
+                <TransactionStatusAction />
+              </TransactionStatus>
             </Transaction>
-            <Button type="button" variant="outline" onClick={() => setShowQR(!showQR)}>
-              <QrCode className="mr-2 h-4 w-4" />
-              {showQR ? 'Hide' : 'Show'} QR Code
+          </div>
+          <div className="flex justify-between gap-2">
+            <Button className='w-full' type="button" variant="outline" onClick={() => setShowQR(!showQR)}>
+              <QrCode className="h-4 w-4 mr-2" />
+              {showQR ? 'Ẩn' : 'Hiện'} Mã QR
+            </Button>
+            <Button className='w-full' type="button" variant="outline" onClick={() => setShowScanner(!showScanner)}>
+              <QrCode className="h-4 w-4 mr-2" />
+              Quét Mã QR
             </Button>
           </div>
         </form>
+        {showScanner && (
+          <div className="mt-4">
+            <ScanQRCode 
+              onScan={handleQRScan}
+              onClose={() => setShowScanner(false)}
+            />
+          </div>
+        )}
         {showQR && (
           <div className="mt-4 text-center">
-            <p>Scan this QR code to receive tokens:</p>
-            <img src="https://kzmlu5pdotz9nvgqjknk.lite.vusercontent.net/placeholder.svg?height=200&width=200" alt="QR Code" className="mx-auto mt-2" />
+            <p>Quét mã QR này để nhận token:</p>
+            <div className="mx-auto mt-2 flex justify-center">
+              <QRCodeSVG
+                value={address || ''}
+                size={200}
+                level="L"
+                includeMargin={true}
+              />
+            </div>
           </div>
         )}
       </DialogContent>

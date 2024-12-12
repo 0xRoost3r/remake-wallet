@@ -18,6 +18,8 @@ import {
   BASE_SEPOLIA_CHAIN_ID,
   mintABI,
   mintContractAddress,
+  nftContractAddress,
+  safeMintABI,
 } from '@/constants';
 import type { Address, ContractFunctionParameters } from 'viem';
 
@@ -37,6 +39,8 @@ const nfts = [
 
 export default function NFTGallery() {
   const [selectedNFT, setSelectedNFT] = useState<NFT>(nfts[0]);
+  const [recipient, setRecipient] = useState<string>('0xE5aEb1927ec6B30cc6AB0a42679C897bf76e7C66');
+
 
   const handleTransfer = (e: any) => {
     e.preventDefault()
@@ -50,10 +54,10 @@ export default function NFTGallery() {
 
   const contracts = [
     {
-      address: mintContractAddress,
-      abi: mintABI,
-      functionName: 'mint',
-      args: ['0xE5aEb1927ec6B30cc6AB0a42679C897bf76e7C66', '1000000000000000000000'],
+      address: nftContractAddress,
+      abi: safeMintABI,
+      functionName: 'safeMint',
+      args: ['0xE5aEb1927ec6B30cc6AB0a42679C897bf76e7C66'],
     },
   ] as unknown as ContractFunctionParameters[];
 
@@ -88,7 +92,7 @@ export default function NFTGallery() {
               <form onSubmit={handleTransfer} className="space-y-4">
                 <div>
                   <Label htmlFor="recipient">Recipient Address</Label>
-                  <Input id="recipient" placeholder="0x42F10Bb701ed230222aC6F748320040A0e3ddfAD" />
+                  <Input id="recipient" placeholder="0xE5aEb1927ec6B30cc6AB0a42679C897bf76e7C66" value={recipient} onChange={(e) => setRecipient(e.target.value)} />
                 </div>
                 <Transaction
                   contracts={contracts}
@@ -96,7 +100,7 @@ export default function NFTGallery() {
                   onError={handleError}
                   onSuccess={handleSuccess}
                 >
-                  <TransactionButton text="Send" className='relative left-0 border-black' />
+                  <TransactionButton text="Send" className='relative text-black left-0 border-black' />
                   <TransactionStatus>
                     <TransactionStatusLabel />
                     <TransactionStatusAction />

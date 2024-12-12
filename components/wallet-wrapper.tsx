@@ -8,6 +8,7 @@ import {
 } from '@coinbase/onchainkit/identity';
 import {
   ConnectWallet,
+  ConnectWalletText,
   Wallet,
   WalletDropdown,
   WalletDropdownBasename,
@@ -16,24 +17,33 @@ import {
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';
 
+
 type WalletWrapperParams = {
   text?: string;
   className?: string;
-  withWalletAggregator?: boolean;
 };
 export default function WalletWrapper({
   className,
 }: WalletWrapperParams) {
   return (
-    <>
-      <Wallet>
-        <ConnectWallet
-          className={className}
+    // omitted for brevity
+ 
+    <Wallet>
+      <ConnectWallet>
+        <ConnectWalletText>Log In</ConnectWalletText>
+        <Avatar className="h-6 w-6" />
+        <Name className='text-black' />
+      </ConnectWallet>
+      <WalletDropdown className='bg-gray-100'>
+        <Identity 
+          className="px-4 py-6 pb-2 hover:bg-black-200"
+          hasCopyAddressOnClick
         >
-          <Avatar className="h-6 w-6" />
-          <Name />
-        </ConnectWallet>
-      </Wallet>
-    </>
+          <Address />
+          <EthBalance />
+        </Identity>
+        <WalletDropdownDisconnect className='hover:bg-black-200 pb-6' />
+      </WalletDropdown>
+    </Wallet>
   );
 }

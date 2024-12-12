@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Eye, EyeOff } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { Eye, EyeOff, ArrowDown } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import TransferPopup from '@/components/transfer-popup'
@@ -10,6 +10,7 @@ import FarmingTab from '@/components/farming-tab'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import LoginButton from '@/components/login-button'
 import { useStore } from '@/store/global'
+import { FundButton } from '@coinbase/onchainkit/fund';
 
 export default function WalletPage() {
   // const [isBalanceHidden, setIsBalanceHidden] = useState(true)
@@ -18,7 +19,6 @@ export default function WalletPage() {
   const [isConnected, setIsConnected] = useState(false)
 
   const {hideBalance, setShowBalance} = useStore((state) => state)
-
 
   const toggleBalanceVisibility = () => {setShowBalance(!hideBalance)}
 
@@ -30,11 +30,6 @@ export default function WalletPage() {
   const closeTransferPopup = () => {
     setSelectedToken(null)
     setIsTransferPopupOpen(false)
-  }
-
-  const handleConnect = () => {
-    // Here you would typically implement the wallet connection logic
-    setIsConnected(!isConnected)
   }
 
   return (
@@ -54,7 +49,10 @@ export default function WalletPage() {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex justify-between items-center">
-              Total Balance
+              <div className="flex items-center gap-4">
+                Total Balance
+                <FundButton hideText={true} className="[&_svg]:fill-black" />
+              </div>
               <Button variant="ghost" size="icon" onClick={toggleBalanceVisibility}>
                 {hideBalance ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
               </Button>
