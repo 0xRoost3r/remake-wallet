@@ -6,3 +6,4 @@ export const NEXT_PUBLIC_URL =
 // Add your API KEY from the Coinbase Developer Portal
 export const NEXT_PUBLIC_CDP_API_KEY = process.env.NEXT_PUBLIC_CDP_API_KEY;
 export const NEXT_PUBLIC_WC_PROJECT_ID = process.env.NEXT_PUBLIC_WC_PROJECT_ID;
+export const DEFAULT_CHAIN_ID = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID ? Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID) : 84532;    

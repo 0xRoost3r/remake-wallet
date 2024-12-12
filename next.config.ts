@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'metadata.nftscan.com',
         port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.smart-wallet.xyz',
+        port: '',
       }
     ],
   },

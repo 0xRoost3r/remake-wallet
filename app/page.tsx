@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useRef } from 'react'
-import { Eye, EyeOff, ArrowDown } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Eye, EyeOff } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import TransferPopup from '@/components/transfer-popup'
@@ -11,14 +11,66 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import LoginButton from '@/components/login-button'
 import { useStore } from '@/store/global'
 import { FundButton } from '@coinbase/onchainkit/fund';
+import { useAccount } from 'wagmi'
+import Image from 'next/image'
+import BigLoginButton from '@/components/big-login-button'
+import ClaimPopup from '@/components/claim-popup'
 
 export default function WalletPage() {
-  // const [isBalanceHidden, setIsBalanceHidden] = useState(true)
   const [isTransferPopupOpen, setIsTransferPopupOpen] = useState(false)
   const [selectedToken, setSelectedToken] = useState(null)
-  const [isConnected, setIsConnected] = useState(false)
-
+  const { isConnected, address } = useAccount()
   const {hideBalance, setShowBalance} = useStore((state) => state)
+  const [showClaimPopup, setShowClaimPopup] = useState(false)
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    if (isConnected) {
+      timeoutId = setTimeout(() => {
+        setShowClaimPopup(true)
+      }, 2000)
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [isConnected])
+
+  const handleCloseClaimPopup = () => {
+    setShowClaimPopup(false)
+  }
+
+  if (!isConnected) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <header className="sticky top-0 z-40 w-full border-b bg-background">
+          <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+            <div className="flex gap-6 md:gap-10 ml-4">
+              <h1 className="text-xl font-bold">Pi Network Wallet</h1>
+            </div>
+          </div>
+        </header>
+        
+        <div className="flex-1 flex flex-col items-center justify-center gap-4">
+          <h2 className="text-2xl font-bold mb-4 text-center">Chào mừng Pioneer đã quay trở lại</h2>
+          <div className="flex justify-center">
+            <Image 
+              src="https://s2.coinmarketcap.com/static/img/coins/64x64/16193.png" 
+              alt="Smart Wallet" 
+              width={64} 
+              height={64}
+            />
+          </div>
+          <div className="flex justify-center">
+            <BigLoginButton />
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const toggleBalanceVisibility = () => {setShowBalance(!hideBalance)}
 
@@ -81,6 +133,11 @@ export default function WalletPage() {
         {isTransferPopupOpen && (
           <TransferPopup token={selectedToken} onClose={closeTransferPopup} />
         )}
+
+        <ClaimPopup 
+          isOpen={showClaimPopup} 
+          onClose={handleCloseClaimPopup}
+        />
       </main>
     </div>
   )

@@ -7,7 +7,7 @@ interface Balance {
   
 
 export const useStore = create<Balance>((set) => ({
-  hideBalance: true,
+  hideBalance: false,
   setShowBalance: (by) => set((state) => ({ hideBalance: by })),
 
 }))

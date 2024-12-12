@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -15,13 +14,11 @@ import {
   TransactionStatusLabel,
 } from '@coinbase/onchainkit/transaction'
 import {
-  BASE_SEPOLIA_CHAIN_ID,
-  mintABI,
-  mintContractAddress,
   nftContractAddress,
   safeMintABI,
 } from '@/constants';
-import type { Address, ContractFunctionParameters } from 'viem';
+import type { ContractFunctionParameters } from 'viem';
+import { DEFAULT_CHAIN_ID } from '@/config'
 
 interface NFT {
   id: number;
@@ -96,7 +93,7 @@ export default function NFTGallery() {
                 </div>
                 <Transaction
                   contracts={contracts}
-                  chainId={BASE_SEPOLIA_CHAIN_ID}
+                  chainId={DEFAULT_CHAIN_ID}
                   onError={handleError}
                   onSuccess={handleSuccess}
                 >

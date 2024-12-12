@@ -1,42 +1,57 @@
-import React, { useState } from 'react';
-import { QrReader } from 'react-qr-reader';
+import React, { useEffect, useState } from "react";
+import { QrReader } from "react-qr-reader";
+import { ViewFinder } from "@/components/ViewFinder";
 
 interface Props {
-  onScan: (result: string) => void;
-  onClose: () => void;
+  onScan: (address: string) => void;
+  onError?: (error: string) => void;
 }
 
-export default function ScanQRCode({ onScan, onClose }: Props) {
-  const [stopStream, setStopStream] = useState(false);
+export const BarcodeScanner = ({ onScan, onError }: Props) => {
+  const [delayScan , setDelayScan] = useState<any>(500);
 
-  const extractAddress = (qrString: string) => {
-    const match = qrString.match(/:([^@]+)@/);
-    return match ? match[1] : qrString;
-  };
-
-  const handleScan = (result: any) => {
+  const handleScan = (result: any, error: any) => {
+    
     if (result) {
-      const address = extractAddress(result.text);
-      onScan(address);
-      setStopStream(true);
-      onClose();
+      const scannedText = result.text;
+      console.log(scannedText);
+      
+      // Kiểm tra xem có phải địa chỉ Ethereum không
+      try {
+        // Loại bỏ các prefix phổ biến
+        const cleanAddress = scannedText.match(/:([^@]+)@/) ? scannedText.match(/:([^@]+)@/)[1] : scannedText
+
+        onScan(cleanAddress); // Trả về địa chỉ đã chuẩn hóa
+        setDelayScan(false)
+      } catch (err) {
+        console.log(err);
+       //onError?.('Không thể đọc mã QR');
+      }
     }
   };
 
-  if (stopStream) {
-    return null;
-  }
+  useEffect(() => {
+    return () => {
+      // Tìm và dừng tất cả các stream video đang chạy
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          stream.getTracks().forEach(track => track.stop());
+        })
+        .catch(err => console.log('Cleanup error:', err));
+    };
+  }, []);
 
   return (
-    <div className="w-full max-w-sm">
+    <div style={{ margin: 'auto', width: '400px', position: 'relative' }}>
       <QrReader
-        constraints={{ facingMode: 'environment' }}
+        ViewFinder={ViewFinder}
+        constraints={{
+          facingMode: 'environment'
+        }}
         onResult={handleScan}
-        className="w-full"
+        videoId="video"
+        scanDelay={delayScan}
       />
-      <p className="text-sm text-center mt-2">
-        Đặt mã QR vào khung hình để quét
-      </p>
     </div>
   );
-} 
+}; 

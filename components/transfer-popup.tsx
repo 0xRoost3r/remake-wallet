@@ -17,13 +17,13 @@ import {
   TransactionStatusLabel,
 } from '@coinbase/onchainkit/transaction'
 import {
-  BASE_SEPOLIA_CHAIN_ID,
-  mintABI,
+  ERC20ABI,
   mintContractAddress,
 } from '@/constants';
 import type { Address, ContractFunctionParameters } from 'viem';
-import ScanQRCode from './scan-qr-code'
+import { BarcodeScanner } from './scan-qr-code'
 import { QRCodeSVG } from 'qrcode.react'
+import { DEFAULT_CHAIN_ID } from '@/config'
 
 
 interface Props {
@@ -35,16 +35,16 @@ interface Props {
 export default function TransferPopup({ token, onClose } : Props) {
   const { address } = useAccount()
   const [showQR, setShowQR] = useState(false)
-  const [recipient, setRecipient] = useState<string>(address ?? '')
-  const [amount, setAmount] = useState<string>('0.01')
+  const [recipient, setRecipient] = useState<string>('')
+  const [amount, setAmount] = useState<string>('0')
   const [showScanner, setShowScanner] = useState(false)
 
   const contracts = [
     {
       address: mintContractAddress,
-      abi: mintABI,
+      abi: ERC20ABI,
       functionName: 'mint',
-      args: [recipient, ethers.parseUnits(amount,"ether").toString().replace('n', '')],
+      args: [recipient, amount.length ? ethers.parseUnits(amount,"ether").toString().replace('n', '') : 0],
     },
   ] as unknown as ContractFunctionParameters[];
 
@@ -103,7 +103,7 @@ export default function TransferPopup({ token, onClose } : Props) {
           <div className="flex justify-between gap-2">
             <Transaction
               contracts={contracts}
-              chainId={BASE_SEPOLIA_CHAIN_ID}
+              chainId={DEFAULT_CHAIN_ID}
               onError={handleError}
               onSuccess={handleSuccess}
             >
@@ -121,18 +121,17 @@ export default function TransferPopup({ token, onClose } : Props) {
             </Button>
             <Button className='w-full' type="button" variant="outline" onClick={() => setShowScanner(!showScanner)}>
               <QrCode className="h-4 w-4 mr-2" />
-              Quét Mã QR
+              {showScanner ? 'Tắt Camera' : 'Quét Mã QR'}
             </Button>
           </div>
         </form>
-        {showScanner && (
+        {showScanner ? (
           <div className="mt-4">
-            <ScanQRCode 
+            <BarcodeScanner 
               onScan={handleQRScan}
-              onClose={() => setShowScanner(false)}
             />
           </div>
-        )}
+        ) : null}
         {showQR && (
           <div className="mt-4 text-center">
             <p>Quét mã QR này để nhận token:</p>
@@ -141,7 +140,6 @@ export default function TransferPopup({ token, onClose } : Props) {
                 value={address || ''}
                 size={200}
                 level="L"
-                includeMargin={true}
               />
             </div>
           </div>
