@@ -45,6 +45,7 @@ export default function NFTGallery() {
     toast({
       title: "NFT Transferred",
       description: `${selectedNFT.name} has been transferred successfully.`,
+      duration: 5000  
     })
     setSelectedNFT(nfts[0])
   }

@@ -74,12 +74,14 @@ function FundPageContent() {
       toast({
         title: "Đã sao chép",
         description: "Địa chỉ ví đã được sao chép vào clipboard",
+        duration: 5000
       })
     } catch (err) {
       toast({
         title: "Lỗi",
         description: "Không thể sao chép địa chỉ ví",
         variant: "destructive",
+        duration: 5000
       })
     }
   }
@@ -106,6 +108,7 @@ function FundPageContent() {
       toast({
         title: "Đã quét thành công",
         description: "Đã nhận được địa chỉ ví người nhận",
+        duration: 5000
       })
     }
   }
@@ -115,6 +118,7 @@ function FundPageContent() {
       title: "Lỗi",
       description: "Không thể quét mã QR",
       variant: "destructive",
+      duration: 5000
     })
   }
 
@@ -122,6 +126,7 @@ function FundPageContent() {
     toast({
       title: "Thành công",
       description: `Đã gửi thành công ${amount} ${selectedToken.symbol}`,
+      duration: 5000
     })
     setAmount('')
     setRecipientAddress('')

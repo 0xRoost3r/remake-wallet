@@ -36,6 +36,7 @@ export function TransferNativeButton({
         title: "Lỗi",
         description: "Không thể thực hiện giao dịch. Vui lòng thử lại.",
         variant: "destructive",
+        duration: 5000
       })
       console.error('Send transaction error:', error)
     }
@@ -46,10 +47,11 @@ export function TransferNativeButton({
       toast({
         title: "Thành công", 
         description: `Hash giao dịch: ${hash}`,
+        duration: 5000
       })
       onSuccess?.()
     }
-  }, [hash, onSuccess])
+  }, [hash])
 
   return (
     <div>

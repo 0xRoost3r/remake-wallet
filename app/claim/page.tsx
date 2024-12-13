@@ -7,20 +7,14 @@ import Image from 'next/image'
 import { WriteContractButton } from "@/components/write-contract-button"
 import { useRouter } from 'next/navigation'
 import { useStore } from '@/store/global'
-import { useEffect } from 'react'
 
 export default function ClaimPage() {
     const { address } = useAccount()
     const router = useRouter()
-    const { isClaimed, setIsClaimed } = useStore()
-
-    useEffect(() => {
-        if (isClaimed) {
-            router.push('/')
-        }
-    }, [isClaimed, router])
+    const { setIsClaimed } = useStore()
 
     const handleSuccess = () => {
+        console.log('handleSuccess')
         setIsClaimed(true)
         router.push('/')
     }

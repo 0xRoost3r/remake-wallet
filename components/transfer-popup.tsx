@@ -55,6 +55,7 @@ export default function TransferPopup({ token, onClose } : Props) {
     toast({
       title: "Transfer Successful",
       description: `${e.target.amount.value} ${token.symbol} has been sent.`,
+      duration: 5000
     })
     onClose()
   }
