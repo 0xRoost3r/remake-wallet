@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pi Smart Wallet
 
-## Getting Started
+Ví điện tử thông minh tích hợp với Pi Network, cho phép người dùng quản lý và giao dịch token một cách dễ dàng.
 
-First, run the development server:
+## Cấu trúc thư mục
+pi-smart-wallet/
+├── app/ # Next.js app router
+│ ├── fund/ # Trang quản lý token và giao dịch
+│ ├── layout.tsx # Layout chung cho ứng dụng
+│ └── page.tsx # Trang chủ
+├── components/ # React components có thể tái sử dụng
+│ ├── ui/ # Components UI cơ bản
+│ ├── onchain-provider.tsx # Provider cho Web3
+│ ├── scan-qr-code.tsx # Component quét mã QR
+│ ├── token-list.ts # Danh sách token được hỗ trợ
+│ ├── transfer-native-button.tsx # Button chuyển token gốc
+│ └── write-contract-button.tsx # Button tương tác với smart contract
+├── constants/ # Các hằng số và cấu hình
+├── hooks/ # Custom React hooks
+├── public/ # Assets tĩnh
+└── styles/ # CSS và style definitions
 
+## Tính năng chính
+### Quản lý Token
+- Xem số dư các loại token
+- Gửi và nhận token
+- Hỗ trợ nhiều loại token khác nhau
+- Quét mã QR để nhận địa chỉ ví
+
+### Tương tác với Blockchain
+- Kết nối với ví Web3
+- Tương tác với smart contracts
+- Xử lý giao dịch native token
+- Theo dõi trạng thái giao dịch
+
+### UI/UX
+- Giao diện thân thiện người dùng
+- Responsive design
+- Loading states và error handling
+- Toast notifications
+
+### Bảo mật
+- Xác thực địa chỉ ví
+- Kiểm tra tính hợp lệ của giao dịch
+- Xử lý lỗi an toàn
+
+## Công nghệ sử dụng
+
+- Next.js 15+ với App Router
+- TypeScript
+- TailwindCSS
+- wagmi & viem cho Web3
+- RainbowKit cho wallet connection
+- shadcn/ui cho components
+
+## Cài đặt và Phát triển
+### Cài đặt dependencies    
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+```
+### Chạy môi trường development
+```bash
 pnpm dev
-# or
-bun dev
+```
+### Build production
+``` bash 
+pnpm build
+```
+### Chạy tests
+```bash
+pnpm test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Môi trường
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Tạo file `.env.local` với các biến môi trường cần thiết:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+NEXT_PUBLIC_WALLET_CONNECT_ID=your_wallet_connect_id
+NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_api_key
+NEXT_PUBLIC_CHAIN_ID=your_chain_id
+NEXT_PUBLIC_CHAIN_NAME=your_chain_name
+NEXT_PUBLIC_CHAIN_RPC_URL=your_chain_rpc_url
+NEXT_PUBLIC_CHAIN_BLOCK_EXPLORER_URL=your_chain_block_explorer_url
+NEXT_PUBLIC_CHAIN_BLOCK_EXPLORER_API_KEY=your_chain_block_explorer_api_key
+```
