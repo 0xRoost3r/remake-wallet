@@ -1,13 +1,23 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 interface Balance {
-    hideBalance: boolean
-    setShowBalance: (by: boolean) => void
-  }
-  
+  hideBalance: boolean
+  isClaimed: boolean
+  setShowBalance: (by: boolean) => void
+  setIsClaimed: (by: boolean) => void
+}
 
-export const useStore = create<Balance>((set) => ({
-  hideBalance: false,
-  setShowBalance: (by) => set((state) => ({ hideBalance: by })),
-
-}))
+export const useStore = create<Balance>()(
+  persist(
+    (set) => ({
+      hideBalance: false,
+      isClaimed: false,
+      setShowBalance: (by) => set({ hideBalance: by }),
+      setIsClaimed: (by) => set({ isClaimed: by }),
+    }),
+    {
+      name: 'pi-wallet-storage',
+    }
+  )
+)

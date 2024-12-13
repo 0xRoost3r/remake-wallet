@@ -1,34 +1,39 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, ArrowUpRight, ArrowDownLeft } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import TransferPopup from '@/components/transfer-popup'
 import AssetsTab from '@/components/assets-tab'
 import FarmingTab from '@/components/farming-tab'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import LoginButton from '@/components/login-button'
 import { useStore } from '@/store/global'
-import { FundButton } from '@coinbase/onchainkit/fund';
 import { useAccount } from 'wagmi'
 import Image from 'next/image'
 import BigLoginButton from '@/components/big-login-button'
-import ClaimPopup from '@/components/claim-popup'
+import { useRouter } from 'next/navigation'
+import { useToast } from '@/hooks/use-toast'
+import { ToastAction } from '@radix-ui/react-toast'
+import { Token } from '@/types/token'
 
 export default function WalletPage() {
-  const [isTransferPopupOpen, setIsTransferPopupOpen] = useState(false)
-  const [selectedToken, setSelectedToken] = useState(null)
+  const router = useRouter()
   const { isConnected, address } = useAccount()
-  const {hideBalance, setShowBalance} = useStore((state) => state)
-  const [showClaimPopup, setShowClaimPopup] = useState(false)
+  const { hideBalance, setShowBalance, isClaimed } = useStore()
+  const { toast } = useToast()
+  const [totalBalance, setTotalBalance] = useState(0)
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
 
-    if (isConnected) {
+    if (isConnected && !isClaimed) {
       timeoutId = setTimeout(() => {
-        setShowClaimPopup(true)
+        toast({
+          title: "🎉 Chào mừng Pioneer đã quay trở lại!",
+          description: "Nhận ngay 1,000 Pi miễn phí",
+          action: <ToastAction altText="Nhận ngay" onClick={() => router.push('/claim')}>Nhận ngay</ToastAction>,
+        })
       }, 2000)
     }
 
@@ -39,9 +44,6 @@ export default function WalletPage() {
     }
   }, [isConnected])
 
-  const handleCloseClaimPopup = () => {
-    setShowClaimPopup(false)
-  }
 
   if (!isConnected) {
     return (
@@ -74,14 +76,8 @@ export default function WalletPage() {
 
   const toggleBalanceVisibility = () => {setShowBalance(!hideBalance)}
 
-  const openTransferPopup = (token: any) => {
-    setSelectedToken(token)
-    setIsTransferPopupOpen(true)
-  }
-
-  const closeTransferPopup = () => {
-    setSelectedToken(null)
-    setIsTransferPopupOpen(false)
+  const openTransferPopup = (token: Token) => {
+    router.push(`/fund?action=send&address=${token.address}`)
   }
 
   return (
@@ -103,7 +99,26 @@ export default function WalletPage() {
             <CardTitle className="flex justify-between items-center">
               <div className="flex items-center gap-4">
                 Total Balance
-                <FundButton hideText={true} className="[&_svg]:fill-black" />
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="flex items-center gap-1"
+                    onClick={() => router.push('/fund?action=send')}
+                  >
+                    <ArrowUpRight className="h-4 w-4" />
+                    Gửi
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="flex items-center gap-1"
+                    onClick={() => router.push('/fund?action=receive')}
+                  >
+                    <ArrowDownLeft className="h-4 w-4" />
+                    Nhận
+                  </Button>
+                </div>
               </div>
               <Button variant="ghost" size="icon" onClick={toggleBalanceVisibility}>
                 {hideBalance ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
@@ -112,7 +127,10 @@ export default function WalletPage() {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold">
-              {hideBalance ? '••••••' : '$1,234.56'}
+              {hideBalance ? '••••••' : `$${totalBalance.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              })}`}
             </p>
           </CardContent>
         </Card>
@@ -123,21 +141,18 @@ export default function WalletPage() {
             <TabsTrigger value="farming">Farming</TabsTrigger>
           </TabsList>
           <TabsContent value="assets">
-            <AssetsTab onTokenClick={openTransferPopup} />
+            <AssetsTab 
+              onTokenClick={openTransferPopup}
+              onBalanceUpdate={(total: number) => {
+                setTotalBalance(total)
+              }}
+            />
           </TabsContent>
           <TabsContent value="farming">
             <FarmingTab />
           </TabsContent>
         </Tabs>
 
-        {isTransferPopupOpen && (
-          <TransferPopup token={selectedToken} onClose={closeTransferPopup} />
-        )}
-
-        <ClaimPopup 
-          isOpen={showClaimPopup} 
-          onClose={handleCloseClaimPopup}
-        />
       </main>
     </div>
   )

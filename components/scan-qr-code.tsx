@@ -7,6 +7,13 @@ interface Props {
   onError?: (error: string) => void;
 }
 
+const cleanEthereumAddress = (address: string): string => {
+  return address
+    .replace(/^ethereum:/i, '')
+    .replace(/:([^@]+)@/, '$1')
+    .trim();
+};
+
 export const BarcodeScanner = ({ onScan, onError }: Props) => {
   const [delayScan , setDelayScan] = useState<any>(500);
 
@@ -18,8 +25,7 @@ export const BarcodeScanner = ({ onScan, onError }: Props) => {
       
       // Kiểm tra xem có phải địa chỉ Ethereum không
       try {
-        // Loại bỏ các prefix phổ biến
-        const cleanAddress = scannedText.match(/:([^@]+)@/) ? scannedText.match(/:([^@]+)@/)[1] : scannedText
+        const cleanAddress = cleanEthereumAddress(scannedText);
 
         onScan(cleanAddress); // Trả về địa chỉ đã chuẩn hóa
         setDelayScan(false)
