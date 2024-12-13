@@ -3,6 +3,7 @@
 Ví điện tử thông minh tích hợp với Pi Network, cho phép người dùng quản lý và giao dịch token một cách dễ dàng.
 
 ## Cấu trúc thư mục
+```plaintext
 pi-smart-wallet/
 ├── app/ # Next.js app router
 │ ├── fund/ # Trang quản lý token và giao dịch
@@ -19,6 +20,7 @@ pi-smart-wallet/
 ├── hooks/ # Custom React hooks
 ├── public/ # Assets tĩnh
 └── styles/ # CSS và style definitions
+```
 
 ## Tính năng chính
 ### Quản lý Token
