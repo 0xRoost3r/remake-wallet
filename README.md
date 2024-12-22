@@ -78,11 +78,11 @@ pnpm test
 Create `.env.local` with required environment variables:
 
 ```bash
-NEXT_PUBLIC_WALLET_CONNECT_ID=your_wallet_connect_id
-NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_api_key
-NEXT_PUBLIC_CHAIN_ID=your_chain_id
-NEXT_PUBLIC_CHAIN_NAME=your_chain_name
-NEXT_PUBLIC_CHAIN_RPC_URL=your_chain_rpc_url
-NEXT_PUBLIC_CHAIN_BLOCK_EXPLORER_URL=your_chain_block_explorer_url
-NEXT_PUBLIC_CHAIN_BLOCK_EXPLORER_API_KEY=your_chain_block_explorer_api_key
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=""
+# See https://www.coinbase.com/developer-platform/products/base-node
+NEXT_PUBLIC_CDP_API_KEY=""
+NEXT_PUBLIC_ENVIRONMENT="development"
+# See https://cloud.walletconnect.com/
+NEXT_PUBLIC_WC_PROJECT_ID=""
+NEXT_PUBLIC_DEFAULT_CHAIN_ID=84532
 ```
