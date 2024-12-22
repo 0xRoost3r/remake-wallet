@@ -29,8 +29,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > 
-        <OnchainProviders>{children}</OnchainProviders>
-        <Toaster/>
+        <div className="max-w-md mx-auto border border-black">
+          <OnchainProviders>{children}</OnchainProviders>
+          <Toaster/>
+        </div>
       </body>
     </html>
   );

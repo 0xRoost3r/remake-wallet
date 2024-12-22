@@ -7,7 +7,7 @@ import {
 } from '@rainbow-me/rainbowkit/wallets';
 import { useMemo } from 'react';
 import { http, createConfig } from 'wagmi';
-import { base, baseSepolia } from 'wagmi/chains';
+import { baseSepolia } from 'wagmi/chains';
 import { NEXT_PUBLIC_WC_PROJECT_ID } from './config';
 
 export function useWagmiConfig() {
@@ -31,7 +31,7 @@ export function useWagmiConfig() {
         },
       ],
       {
-        appName: 'Pi Smart Wallet',
+        appName: 'Remake Wallet',
         projectId,
       },
     );

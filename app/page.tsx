@@ -51,21 +51,13 @@ export default function WalletPage() {
         <header className="sticky top-0 z-40 w-full border-b bg-background">
           <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
             <div className="flex gap-6 md:gap-10 ml-4">
-              <h1 className="text-xl font-bold">Remake Wallet</h1>
+              <h1 className="text-xl font-bold">Remake Wallet (WIP)</h1>
             </div>
           </div>
         </header>
         
         <div className="flex-1 flex flex-col items-center justify-center gap-4">
           <h2 className="text-2xl font-bold mb-4 text-center">Welcome back</h2>
-          <div className="flex justify-center">
-            <Image 
-              src="https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png" 
-              alt="Smart Wallet" 
-              width={64} 
-              height={64}
-            />
-          </div>
           <div className="flex justify-center">
             <BigLoginButton />
           </div>
@@ -85,7 +77,7 @@ export default function WalletPage() {
       <header className="sticky top-0 z-40 w-full border-b bg-background">
         <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
           <div className="flex gap-6 md:gap-10 ml-4">
-            <h1 className="text-xl font-bold">Remake Wallet</h1>
+            <h1 className="text-xl font-bold">Remake Wallet (WIP)</h1>
           </div>
           <div className="flex flex-1 items-center justify-end space-x-4 mr-8">
             <LoginButton/>

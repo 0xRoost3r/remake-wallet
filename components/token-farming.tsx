@@ -43,18 +43,18 @@ export default function TokenFarming() {
           <Label>Pool Progress</Label>
           <Progress value={(currentPoolSize / totalPoolSize) * 100} className="mt-2" />
           <p className="text-sm text-gray-500 mt-1">
-            {currentPoolSize.toLocaleString()} / {totalPoolSize.toLocaleString()} PI locked
+            {currentPoolSize.toLocaleString()} / {totalPoolSize.toLocaleString()} OP locked
           </p>
         </div>
         <div className="mb-4">
-          <p>Locked Amount: {lockedAmount} PI</p>
+          <p>Locked Amount: {lockedAmount} OP</p>
           <p>Earned USDC: ${earnedAmount.toFixed(2)}</p>
         </div>
         <form onSubmit={handleLock} className="mb-4">
-          <Label htmlFor="amount">Amount to Lock (PI)</Label>
+          <Label htmlFor="amount">Amount to Lock (OP)</Label>
           <Input id="amount" type="number" placeholder="0" className="mb-2" />
           <div className="flex gap-2">
-            <Button type="submit">Lock PI</Button>
+            <Button type="submit">Lock OP</Button>
             <Button onClick={handleWithdraw} variant="outline">Withdraw</Button>
           </div>
         </form>
