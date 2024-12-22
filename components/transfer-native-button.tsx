@@ -45,8 +45,8 @@ export function TransferNativeButton({
   React.useEffect(() => {
     if (hash) {
       toast({
-        title: "Thành công", 
-        description: `Hash giao dịch: ${hash}`,
+        title: "Success", 
+        description: `Transaction hash: ${hash}`,
         duration: 5000
       })
       onSuccess?.()
