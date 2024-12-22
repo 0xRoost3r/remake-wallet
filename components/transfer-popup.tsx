@@ -20,7 +20,7 @@ import {
   ERC20ABI,
   mintContractAddress,
 } from '@/constants';
-import type { Address, ContractFunctionParameters } from 'viem';
+import type { ContractFunctionParameters } from 'viem';
 import { BarcodeScanner } from './scan-qr-code'
 import { QRCodeSVG } from 'qrcode.react'
 import { DEFAULT_CHAIN_ID } from '@/config'
@@ -118,11 +118,11 @@ export default function TransferPopup({ token, onClose } : Props) {
           <div className="flex justify-between gap-2">
             <Button className='w-full' type="button" variant="outline" onClick={() => setShowQR(!showQR)}>
               <QrCode className="h-4 w-4 mr-2" />
-              {showQR ? 'Ẩn' : 'Hiện'} Mã QR
+              {showQR ? 'Hide QR' : 'Show QR'}
             </Button>
             <Button className='w-full' type="button" variant="outline" onClick={() => setShowScanner(!showScanner)}>
               <QrCode className="h-4 w-4 mr-2" />
-              {showScanner ? 'Tắt Camera' : 'Quét Mã QR'}
+              {showScanner ? 'Hide Camera' : 'Scan QR'}
             </Button>
           </div>
         </form>
@@ -135,7 +135,7 @@ export default function TransferPopup({ token, onClose } : Props) {
         ) : null}
         {showQR && (
           <div className="mt-4 text-center">
-            <p>Quét mã QR này để nhận token:</p>
+            <p>Scan this QR code to receive tokens:</p>
             <div className="mx-auto mt-2 flex justify-center">
               <QRCodeSVG
                 value={address || ''}
