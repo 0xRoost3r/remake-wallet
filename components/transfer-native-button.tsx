@@ -18,7 +18,7 @@ interface TransferNativeButtonProps {
 export function TransferNativeButton({
   to,
   amount,
-  buttonText = 'Gửi Token',
+  buttonText = 'Send',
   className,
   onSuccess
 }: TransferNativeButtonProps) {
@@ -33,8 +33,8 @@ export function TransferNativeButton({
       })
     } catch (error) {
       toast({
-        title: "Lỗi",
-        description: "Không thể thực hiện giao dịch. Vui lòng thử lại.",
+        title: "Error",
+        description: "Transaction failed.",
         variant: "destructive",
         duration: 5000
       })
@@ -60,11 +60,11 @@ export function TransferNativeButton({
         disabled={isPending}
         className={className}
       >
-        {isPending ? 'Đang xử lý...' : buttonText}
+        {isPending ? 'Processing...' : buttonText}
       </Button>
       {isError && (
         <p className="text-red-500 text-sm mt-2">
-          Đã xảy ra lỗi. Vui lòng thử lại.
+          Error. Please try again.
         </p>
       )}
     </div>
