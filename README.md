@@ -1,81 +1,81 @@
-# Pi Smart Wallet
+# ReWallet
 
-Ví điện tử thông minh tích hợp với Pi Network, cho phép người dùng quản lý và giao dịch token một cách dễ dàng.
+A fast, open-source web wallet built for Base Chain, designed to help you quickly integrate wallet functionality into your project.
 
-## Cấu trúc thư mục
+## Project Structure
 ```plaintext
-pi-smart-wallet/
+rewallet/
 ├── app/ # Next.js app router
-│ ├── fund/ # Trang quản lý token và giao dịch
-│ ├── layout.tsx # Layout chung cho ứng dụng
-│ └── page.tsx # Trang chủ
-├── components/ # React components có thể tái sử dụng
-│ ├── ui/ # Components UI cơ bản
-│ ├── onchain-provider.tsx # Provider cho Web3
-│ ├── scan-qr-code.tsx # Component quét mã QR
-│ ├── token-list.ts # Danh sách token được hỗ trợ
-│ ├── transfer-native-button.tsx # Button chuyển token gốc
-│ └── write-contract-button.tsx # Button tương tác với smart contract
-├── constants/ # Các hằng số và cấu hình
+│ ├── fund/ # Token and transaction management pages
+│ ├── layout.tsx # App-wide layout
+│ └── page.tsx # Homepage
+├── components/ # Reusable React components
+│ ├── ui/ # Base UI components
+│ ├── onchain-provider.tsx # Web3 provider
+│ ├── scan-qr-code.tsx # QR code scanner
+│ ├── token-list.ts # Supported tokens list
+│ ├── transfer-native-button.tsx # Native token transfer button
+│ └── write-contract-button.tsx # Smart contract interaction button
+├── constants/ # Constants and configurations
 ├── hooks/ # Custom React hooks
-├── public/ # Assets tĩnh
-└── styles/ # CSS và style definitions
+├── public/ # Static assets
+└── styles/ # CSS and style definitions
 ```
 
-## Tính năng chính
-### Quản lý Token
-- Xem số dư các loại token
-- Gửi và nhận token
-- Hỗ trợ nhiều loại token khác nhau
-- Quét mã QR để nhận địa chỉ ví
+## Core Features
+### Token Management
+- View token balances
+- Send and receive tokens
+- Multi-token support
+- QR code scanning for wallet addresses
 
-### Tương tác với Blockchain
-- Kết nối với ví Web3
-- Tương tác với smart contracts
-- Xử lý giao dịch native token
-- Theo dõi trạng thái giao dịch
+### Blockchain Integration
+- Web3 wallet connection
+- Smart contract interactions
+- Native token transactions
+- Transaction status tracking
 
 ### UI/UX
-- Giao diện thân thiện người dùng
+- User-friendly interface
 - Responsive design
-- Loading states và error handling
+- Loading states and error handling
 - Toast notifications
 
-### Bảo mật
-- Xác thực địa chỉ ví
-- Kiểm tra tính hợp lệ của giao dịch
-- Xử lý lỗi an toàn
+### Security
+- Wallet address verification
+- Transaction validation
+- Secure error handling
 
-## Công nghệ sử dụng
+## Tech Stack
 
-- Next.js 15+ với App Router
+- Next.js 15+ with App Router
 - TypeScript
 - TailwindCSS
-- wagmi & viem cho Web3
-- RainbowKit cho wallet connection
-- shadcn/ui cho components
+- wagmi & viem for Web3
+- RainbowKit for wallet connection
+- shadcn/ui for components
 
-## Cài đặt và Phát triển
-### Cài đặt dependencies    
+## Setup & Development
+### Install Dependencies    
 ```bash
 pnpm install
 ```
-### Chạy môi trường development
+### Run Development Server
 ```bash
 pnpm dev
 ```
-### Build production
-``` bash 
+### Build for Production
+```bash
 pnpm build
 ```
-### Chạy tests
+### Run Tests
 ```bash
 pnpm test
 ```
 
-## Môi trường
+## Environment Setup
 
-Tạo file `.env.local` với các biến môi trường cần thiết:
+Create `.env.local` with required environment variables:
 
 ```bash
 NEXT_PUBLIC_WALLET_CONNECT_ID=your_wallet_connect_id

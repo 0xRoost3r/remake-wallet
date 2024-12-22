@@ -9,9 +9,9 @@ export default function BigLoginButton() {
     <Button 
       onClick={() => connect({ connector: metamaskConnector })}
       size="lg"
-      className="px-8 py-6 text-lg flex items-center gap-3 h-auto"
+      className="px-8 py-6 text-lg flex items-center gap-3 h-auto bg-white text-black"
         >
-      Kết nối với Smart Wallet
+      Login
     </Button>
   )
 } 

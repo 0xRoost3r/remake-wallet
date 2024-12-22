@@ -22,29 +22,29 @@ export default function ClaimPage() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4">
             <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
-                <h1 className="text-center text-2xl mb-6">🎉 Chào mừng bạn! 🎉</h1>
+                <h1 className="text-center text-2xl mb-6">🎉 Welcome! 🎉</h1>
                 <div className="text-center">
                     <div className="flex justify-center mb-4">
                         <Image 
-                            src="https://s2.coinmarketcap.com/static/img/coins/64x64/16193.png" 
-                            alt="Pi Token" 
+                            src="https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png" 
+                            alt="OP Token" 
                             width={80} 
                             height={80}
                             priority
                         />
                     </div>
                     <h2 className="text-lg font-semibold mb-2">
-                        Nhận ngay 1,000 Pi miễn phí
+                        Get 1,000 OP for free
                     </h2>
                     <h3 className="text-sm text-muted-foreground mb-6">
-                        Nhận token để bắt đầu trải nghiệm Pi Smart Wallet
+                        Get tokens to start experiencing Remake Wallet
                     </h3>
                     <WriteContractButton
                         address={mintContractAddress}
                         abi={ERC20ABI}
                         functionName="mint"
                         args={[address, ethers.parseUnits('1000', "ether").toString()]}
-                        buttonText="Nhận 1,000 Pi miễn phí"
+                        buttonText="Get 1,000 OP for free"
                         className="w-full text-white border-black border-2 border-solid rounded-lg"
                         onSuccess={handleSuccess}
                     />

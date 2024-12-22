@@ -72,14 +72,14 @@ function FundPageContent() {
     try {
       await navigator.clipboard.writeText(address)
       toast({
-        title: "Đã sao chép",
-        description: "Địa chỉ ví đã được sao chép vào clipboard",
+        title: "Copied",
+        description: "Wallet address has been copied to clipboard",
         duration: 5000
       })
     } catch (err) {
       toast({
-        title: "Lỗi",
-        description: "Không thể sao chép địa chỉ ví",
+        title: "Error",
+        description: "Could not copy wallet address",
         variant: "destructive",
         duration: 5000
       })
@@ -95,7 +95,7 @@ function FundPageContent() {
     }
 
     if (!isAddress(value)) {
-      setAddressError('Địa chỉ ví không hợp lệ')
+      setAddressError('Invalid wallet address')
     } else {
       setAddressError('')
     }
@@ -106,8 +106,8 @@ function FundPageContent() {
     setIsScanning(false)
     if (isAddress(address)) {
       toast({
-        title: "Đã quét thành công",
-        description: "Đã nhận được địa chỉ ví người nhận",
+        title: "Scan successful",
+        description: "Recipient wallet address received",
         duration: 5000
       })
     }
@@ -115,8 +115,8 @@ function FundPageContent() {
 
   const handleScanError = (error: string) => {
     toast({
-      title: "Lỗi",
-      description: "Không thể quét mã QR",
+      title: "Error",
+      description: "Could not scan QR code",
       variant: "destructive",
       duration: 5000
     })
@@ -124,8 +124,8 @@ function FundPageContent() {
 
   const handleSuccess = () => {
     toast({
-      title: "Thành công",
-      description: `Đã gửi thành công ${amount} ${selectedToken.symbol}`,
+      title: "Success",
+      description: `Successfully sent ${amount} ${selectedToken.symbol}`,
       duration: 5000
     })
     setAmount('')
@@ -148,7 +148,7 @@ function FundPageContent() {
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <h1 className="text-xl font-bold">Quản lý Token</h1>
+          <h1 className="text-xl font-bold">Token Management</h1>
         </div>
       </header>
 
@@ -158,14 +158,14 @@ function FundPageContent() {
           className="w-full"
         >
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="receive">Nhận Token</TabsTrigger>
-            <TabsTrigger value="send">Gửi Token</TabsTrigger>
+            <TabsTrigger value="receive">Receive Token</TabsTrigger>
+            <TabsTrigger value="send">Send Token</TabsTrigger>
           </TabsList>
           
           <TabsContent value="receive">
             <Card>
               <CardHeader>
-                <CardTitle>Quét để nhận</CardTitle>
+                <CardTitle>Scan to Receive</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col items-center gap-4">
                 <QRCodeSVG value={address || ''} size={200} />
@@ -183,13 +183,13 @@ function FundPageContent() {
           <TabsContent value="send">
             <Card>
               <CardHeader>
-                <CardTitle>Gửi Token</CardTitle>
+                <CardTitle>Send Token</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col items-center gap-4">
                 <div className="flex justify-center items-center gap-2">
                   <Button variant="outline" onClick={() => setIsScanning(true)}>
                     <QrCode className="h-4 w-4 mr-2" />
-                    Quét QR
+                    Scan QR
                   </Button>
                 </div>
                 
@@ -204,7 +204,7 @@ function FundPageContent() {
                       onClick={() => setIsScanning(false)}
                       className="mt-4"
                     >
-                      Đóng Scanner
+                      Close Scanner
                     </Button>
                   </div>
                 )}
@@ -247,18 +247,18 @@ function FundPageContent() {
                   </DropdownMenu>
 
                   <div className="text-sm text-muted-foreground">
-                    Số dư: {hideBalance ? '••••••' : formattedBalance} {selectedToken.symbol}
+                    Balance: {hideBalance ? '••••••' : formattedBalance} {selectedToken.symbol}
                   </div>
 
                   <Input
                     type="number"
-                    placeholder={`Nhập số lượng ${selectedToken.symbol}`}
+                    placeholder={`Enter amount of ${selectedToken.symbol}`}
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                   />
                   <Input
                     type="string"
-                    placeholder="Nhập địa chỉ ví người nhận"
+                    placeholder="Enter recipient wallet address"
                     value={recipientAddress}
                     onChange={(e) => handleAddressChange(e.target.value)}
                   />
@@ -269,7 +269,7 @@ function FundPageContent() {
                     <TransferNativeButton
                       to={recipientAddress}
                       amount={amount}
-                      buttonText="Gửi Token"
+                      buttonText="Send Token"
                       className="w-full text-white border-black border-2 border-solid rounded-lg"
                       onSuccess={handleSuccess}
                       disabled={!isValidTransaction}
@@ -280,7 +280,7 @@ function FundPageContent() {
                       abi={ERC20ABI}
                       functionName="transfer"
                       args={[recipientAddress, amount.length ? ethers.parseUnits(amount,"ether").toString().replace('n', '') : 0]}
-                      buttonText="Gửi Token"
+                      buttonText="Send Token"
                       className="w-full text-white border-black border-2 border-solid rounded-lg"
                       onSuccess={handleSuccess}
                       disabled={!isValidTransaction}

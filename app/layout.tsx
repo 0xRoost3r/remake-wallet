@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pi Smart Wallet",
-  description: "Pi Smart Wallet",
+  title: "Remake Wallet",
+  description: "Remake Wallet",
 };
 
 export default function RootLayout({

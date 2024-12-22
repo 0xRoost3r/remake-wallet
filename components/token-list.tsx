@@ -16,7 +16,7 @@ interface Token {
 }
 
 export const defaultTokens: Token[] = [
-  { name: 'Pi', symbol: 'PI', address: mintContractAddress, balance: 0, value: 31.4, logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/16193.png' },
+  { name: 'OP', symbol: 'OP', address: mintContractAddress, balance: 0, value: 31.4, logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png' },
   { name: 'Ethereum', symbol: 'ETH', address: '0x4200000000000000000000000000000000000006', balance: 0, value: 3900, logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png' },
   { name: 'USD Coin', symbol: 'USDC', address: '0x62dA74A3aCd9e2dde72E093f638B1BeB41ab28E8', balance: 0, value: 1, logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png' },
 ]

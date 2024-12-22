@@ -15,7 +15,7 @@ import {
 } from '@coinbase/onchainkit/transaction'
 import {
   nftContractAddress,
-  safeMintABI,
+  ERC20ABI,
 } from '@/constants';
 import type { ContractFunctionParameters } from 'viem';
 import { DEFAULT_CHAIN_ID } from '@/config'
@@ -53,7 +53,7 @@ export default function NFTGallery() {
   const contracts = [
     {
       address: nftContractAddress,
-      abi: safeMintABI,
+      abi: ERC20ABI,
       functionName: 'safeMint',
       args: ['0xE5aEb1927ec6B30cc6AB0a42679C897bf76e7C66'],
     },

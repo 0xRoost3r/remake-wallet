@@ -30,9 +30,9 @@ export default function WalletPage() {
     if (isConnected && !isClaimed) {
       timeoutId = setTimeout(() => {
         toast({
-          title: "🎉 Chào mừng Pioneer đã quay trở lại!",
-          description: "Nhận ngay 1,000 Pi miễn phí",
-          action: <ToastAction altText="Nhận ngay" onClick={() => router.push('/claim')}>Nhận ngay</ToastAction>,
+          title: "🎉 Welcome back!",
+          description: "Get 1,000 OP for free",
+          action: <ToastAction altText="Claim now" onClick={() => router.push('/claim')}>Claim now</ToastAction>,
         })
       }, 2000)
     }
@@ -51,16 +51,16 @@ export default function WalletPage() {
         <header className="sticky top-0 z-40 w-full border-b bg-background">
           <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
             <div className="flex gap-6 md:gap-10 ml-4">
-              <h1 className="text-xl font-bold">Pi Network Wallet</h1>
+              <h1 className="text-xl font-bold">Remake Wallet</h1>
             </div>
           </div>
         </header>
         
         <div className="flex-1 flex flex-col items-center justify-center gap-4">
-          <h2 className="text-2xl font-bold mb-4 text-center">Chào mừng Pioneer đã quay trở lại</h2>
+          <h2 className="text-2xl font-bold mb-4 text-center">Welcome back</h2>
           <div className="flex justify-center">
             <Image 
-              src="https://s2.coinmarketcap.com/static/img/coins/64x64/16193.png" 
+              src="https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png" 
               alt="Smart Wallet" 
               width={64} 
               height={64}
@@ -85,7 +85,7 @@ export default function WalletPage() {
       <header className="sticky top-0 z-40 w-full border-b bg-background">
         <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
           <div className="flex gap-6 md:gap-10 ml-4">
-            <h1 className="text-xl font-bold">Pi Network Wallet</h1>
+            <h1 className="text-xl font-bold">Remake Wallet</h1>
           </div>
           <div className="flex flex-1 items-center justify-end space-x-4 mr-8">
             <LoginButton/>
@@ -107,7 +107,7 @@ export default function WalletPage() {
                     onClick={() => router.push('/fund?action=send')}
                   >
                     <ArrowUpRight className="h-4 w-4" />
-                    Gửi
+                    Send
                   </Button>
                   <Button 
                     variant="outline" 
@@ -116,7 +116,7 @@ export default function WalletPage() {
                     onClick={() => router.push('/fund?action=receive')}
                   >
                     <ArrowDownLeft className="h-4 w-4" />
-                    Nhận
+                    Receive
                   </Button>
                 </div>
               </div>
@@ -157,4 +157,3 @@ export default function WalletPage() {
     </div>
   )
 }
-
