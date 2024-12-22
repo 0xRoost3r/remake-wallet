@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { useWriteContract } from 'wagmi'
 import { Button } from '@/components/ui/button'
-import { toast, useToast } from '@/hooks/use-toast'
+import { useToast } from '@/hooks/use-toast'
 
 
 interface WriteContractButtonProps {
@@ -22,7 +22,7 @@ export function WriteContractButton({
   abi,
   functionName,
   args,
-  buttonText = 'Thực hiện',
+  buttonText = 'Execute',
   className,
   onSuccess,
   disabled
